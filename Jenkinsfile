@@ -13,7 +13,6 @@ pipeline {
             }
             steps {
             sh 'mvn compile'
-                input message: compiling the code;
             }
         }
             
