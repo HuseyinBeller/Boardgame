@@ -5,27 +5,24 @@ pipeline {
         maven 'maven3'
         jdk 'jdk17'
     }
-    
 
-    stages {        
-        stage('Test') {
-            steps {
-                sh "mvn compile"
+    stages {
+        stage('Git Compile') {
+          steps {
+                sh 'mvn compile'
             }
         }
         
-        stage('Test') {
+         stage('Unit Test cases') {
             steps {
-                sh "mvn test"
-            }
-        }
-
-          stage('Build') {
-            steps {
-                sh "mvn package"
+                sh 'mvn test'
             }
         }
         
+         stage('Package') {
+            steps {
+                sh 'mvn package'
+            }
         }
-        
     }
+}
