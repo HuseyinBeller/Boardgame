@@ -7,12 +7,15 @@ pipeline {
     }
 
     stages {
-        stage('Git Compile') {
-          steps {
-                sh 'mvn compile'
-            }
+        stage('compile') {
+         checkout scm
         }
-        
+        stage('test')
+          echo 'branch name ' + env.BRANCH_NAME
+            if (env.BRANCH_NAME.startsWith("bug-fix")) {
+                   echo "Compiling the environment before build"
+  } 
+            
          stage('Unit Test cases') {
             steps {
                 sh 'mvn test'
