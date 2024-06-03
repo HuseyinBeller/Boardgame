@@ -6,16 +6,16 @@ pipeline {
         jdk 'jdk17'
     }
 
-    stages {
-        stage('compile') {
-         checkout scm
+ stages {
+        stage('Git Compile') {
+          when {
+                branch 'develop'
+            }
+            steps {
+            sh 'mvn compile'
+                input message: compiling the code;
+            }
         }
-        stage('test')
-          echo 'branch name ' + env.BRANCH_NAME
-            if (env.BRANCH_NAME.startsWith("bug-fix")) {
-                   echo "Compiling the environment before build"
-                sh 'mvn compile'
-  } 
             
          stage('Unit Test cases') {
             steps {
