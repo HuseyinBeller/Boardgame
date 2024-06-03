@@ -1,5 +1,9 @@
 pipeline {
     agent any
+
+    environment {
+        GIT_CREDENTIALS_ID = https://github.com/HuseyinBeller/Boardgame.git
+    }
     
     tools {
         maven 'maven3'
@@ -7,9 +11,21 @@ pipeline {
     }
 
  stages {
-        stage('Git Compile') {
+    stage('Checkout') {
+        when {
+            branch 'develop'
+        }
+    }
+     
+        stage('Checkout') {
           when {
-                branch 'develop'
+              // Checkout the develop branch
+                    checkout([$class: 'GitSCM', branches: [[name: "*/develop"]],
+                        doGenerateSubmoduleConfigurations: false,
+                        extensions: [[$class: 'LocalBranch', localBranch: 'develop']],
+                        submoduleCfg: [],
+                        userRemoteConfigs: [[credentialsId: "${env.GIT_CREDENTIALS_ID}", url: 'git@your-repo-url.git']]
+                    ])
             }
             steps {
             sh 'mvn compile'
@@ -25,6 +41,7 @@ pipeline {
          stage('Package') {
             steps {
                 sh 'mvn package'
+                echo 'Packaging and Testing develop branch'
             }
         }
     }
