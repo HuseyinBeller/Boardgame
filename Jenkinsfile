@@ -14,6 +14,7 @@ pipeline {
           echo 'branch name ' + env.BRANCH_NAME
             if (env.BRANCH_NAME.startsWith("bug-fix")) {
                    echo "Compiling the environment before build"
+                sh 'mvn compile'
   } 
             
          stage('Unit Test cases') {
